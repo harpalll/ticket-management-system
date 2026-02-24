@@ -1,6 +1,7 @@
-import express from "express";
 import cors from "cors";
-import { prisma } from "./config/db";
+import express from "express";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger";
 
 const app = express();
 
@@ -11,14 +12,16 @@ app.get("/", async (_, res) => {
   res.json({ message: "Support Ticket API Running 🚀" });
 });
 
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.get("/health", async (_, res) => {
   res.json({ message: "Support Ticket API is up and running 🚀" });
 });
 
 import authRoutes from "./modules/auth/auth.routes";
-import usersRoutes from "./modules/users/users.routes";
-import ticketsRoutes from "./modules/tickets/tickets.routes";
 import commentsRoutes from "./modules/comments/comments.routes";
+import ticketsRoutes from "./modules/tickets/tickets.routes";
+import usersRoutes from "./modules/users/users.routes";
 
 app.use("/auth", authRoutes);
 app.use("/users", usersRoutes);
