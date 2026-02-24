@@ -17,8 +17,10 @@ app.get("/health", async (_, res) => {
 
 import authRoutes from "./modules/auth/auth.routes";
 import usersRoutes from "./modules/users/users.routes";
+import ticketsRoutes from "./modules/tickets/tickets.routes";
 
 app.use("/auth", authRoutes);
 app.use("/users", usersRoutes);
+app.use("/tickets", ticketsRoutes);
 
 export default app;
