@@ -11,6 +11,7 @@ import {
   createTicketSchema,
   assignTicketSchema,
   updateStatusSchema,
+  ticketQuerySchema,
 } from "./tickets.validation";
 
 export const createTicketHandler = async (req: AuthRequest, res: Response) => {
@@ -31,8 +32,8 @@ export const createTicketHandler = async (req: AuthRequest, res: Response) => {
 };
 
 export const getTicketsHandler = async (req: AuthRequest, res: Response) => {
-  const tickets = await getTickets(req.user);
-  res.status(200).json(tickets);
+  const result = await getTickets(req.user, req.query);
+  res.json(result);
 };
 
 export const assignTicketHandler = async (req: AuthRequest, res: Response) => {

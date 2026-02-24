@@ -14,3 +14,12 @@ export const assignTicketSchema = z.object({
 export const updateStatusSchema = z.object({
   status: z.nativeEnum(TicketStatus),
 });
+
+export const ticketQuerySchema = z.object({
+  page: z.string().optional(),
+  limit: z.string().optional(),
+  status: z.enum(["OPEN", "IN_PROGRESS", "RESOLVED", "CLOSED"]).optional(),
+  priority: z.enum(["LOW", "MEDIUM", "HIGH"]).optional(),
+  assignedTo: z.string().optional(),
+  createdBy: z.string().optional(),
+});

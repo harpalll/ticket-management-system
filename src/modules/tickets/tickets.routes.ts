@@ -50,11 +50,68 @@ router.post(
  * @swagger
  * /tickets:
  *   get:
- *     summary: Get tickets based on role
+ *     summary: Get tickets with pagination and filtering
+ *     description: |
+ *       Returns tickets based on user role.
+ *       - MANAGER → Can view all tickets
+ *       - SUPPORT → Can view only assigned tickets
+ *       - USER → Can view only their created tickets
  *     tags: [Tickets]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: Page number (default is 1)
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           example: 10
+ *         description: Number of tickets per page (max 50)
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *           enum: [OPEN, IN_PROGRESS, CLOSED]
+ *           example: CLOSED
+ *         description: Filter tickets by status
+ *       - in: query
+ *         name: priority
+ *         schema:
+ *           type: string
+ *           enum: [LOW, MEDIUM, HIGH]
+ *           example: HIGH
+ *         description: Filter tickets by priority
  *     responses:
  *       200:
- *         description: Ticket list
+ *         description: Paginated ticket list
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 limit:
+ *                   type: integer
+ *                   example: 10
+ *                 total:
+ *                   type: integer
+ *                   example: 25
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 3
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *       401:
+ *         description: Unauthorized (Missing or invalid token)
  *       403:
  *         description: Forbidden
  */
